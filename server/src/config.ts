@@ -10,6 +10,7 @@ const envSchema = z.object({
   POSTGRESQL_USERNAME: z.string(),
   POSTGRESQL_PASSWORD: z.string(),
   POSTGRESQL_DATABASE: z.string(),
+  POSTGRESQL_SSL: z.string().transform(v => v === 'true').default('false'),
 
   S3_API_BASE_URL: z.string().default('https://aviyup1kyk.execute-api.ap-northeast-2.amazonaws.com/prod'),
   S3_API_KEY: z.string(),
