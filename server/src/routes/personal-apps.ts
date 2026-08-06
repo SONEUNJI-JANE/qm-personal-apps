@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express'
 import multer from 'multer'
 import { PersonalAppsRepository } from '../repositories/personal-apps.repository'
 import { getPool } from '../db/pool'
-import { uploadFile, downloadFile, deleteFile } from '../services/s3.service'
+import { uploadFile, downloadFile, deleteFile } from '../services/storage.service'
 
 const router = Router()
 const upload = multer({ storage: multer.memoryStorage() })
@@ -75,8 +75,8 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
 
     try {
       await deleteFile(app.s3_key)
-    } catch (s3Error) {
-      console.error(`S3 삭제 실패 (DB는 이미 삭제됨), key=${app.s3_key}:`, s3Error)
+    } catch (storageError) {
+      console.error(`스토리지 삭제 실패 (DB는 이미 삭제됨), key=${app.s3_key}:`, storageError)
     }
 
     res.status(204).send()

@@ -13,7 +13,7 @@ vi.mock('../repositories/personal-apps.repository', () => ({
   PersonalAppsRepository: vi.fn(() => mockRepo),
 }))
 
-vi.mock('../services/s3.service', () => ({
+vi.mock('../services/storage.service', () => ({
   uploadFile: vi.fn(async (path: string) => `qm-personal-apps/test/${path}`),
   downloadFile: vi.fn(async () => Buffer.from('file-bytes')),
   deleteFile: vi.fn(async () => {}),

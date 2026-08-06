@@ -12,9 +12,9 @@ const envSchema = z.object({
   POSTGRESQL_DATABASE: z.string(),
   POSTGRESQL_SSL: z.string().transform(v => v === 'true').default('false'),
 
-  S3_API_BASE_URL: z.string().default('https://aviyup1kyk.execute-api.ap-northeast-2.amazonaws.com/prod'),
-  S3_API_KEY: z.string(),
-  S3_BUCKET: z.string().default('svc-fnf-ax-platform-pub-s3'),
+  SUPABASE_URL: z.string(),
+  SUPABASE_KEY: z.string(),
+  SUPABASE_STORAGE_BUCKET: z.string().default('personal-apps'),
 })
 
 export const config = envSchema.parse(process.env)
