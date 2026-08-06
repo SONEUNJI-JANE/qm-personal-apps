@@ -1,18 +1,13 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { getPool, closePool } from '../db/pool'
 import { PersonalAppsRepository } from './personal-apps.repository'
-import { readFileSync } from 'fs'
-import { join } from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
+import { SCHEMA_SQL } from '../db/schema'
 
 describe('PersonalAppsRepository', () => {
   const repo = new PersonalAppsRepository(getPool())
 
   beforeAll(async () => {
-    const schema = readFileSync(join(__dirname, '../db/schema.sql'), 'utf-8')
-    await getPool().query(schema)
+    await getPool().query(SCHEMA_SQL)
   })
 
   beforeEach(async () => {
