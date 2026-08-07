@@ -36,8 +36,8 @@ body {
 }
 
 .upload-form {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: nowrap;
   gap: 10px;
   align-items: end;
 }
@@ -45,7 +45,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
+.field.field-file { flex: 0 0 auto; }
+.field.field-name { flex: 2; }
+.field.field-desc { flex: 2; }
+.field.field-category { flex: 0 0 110px; }
 .field label {
   font-size: 12px;
   font-weight: 600;
@@ -73,6 +78,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  max-width: 140px;
 }
 
 .btn {

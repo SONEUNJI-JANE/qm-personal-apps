@@ -41,7 +41,7 @@ export function UploadForm({ uploaderEmail, onUploaded }: Props) {
 
   return (
     <form className="card upload-form" onSubmit={handleSubmit}>
-      <div className="field">
+      <div className="field field-file">
         <label>파일 *</label>
         <div className="file-picker">
           <button type="button" className="btn" onClick={() => fileInputRef.current?.click()}>
@@ -56,15 +56,15 @@ export function UploadForm({ uploaderEmail, onUploaded }: Props) {
           />
         </div>
       </div>
-      <div className="field">
+      <div className="field field-name">
         <label>제목 *</label>
         <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="예: 패턴요청 자동회신" />
       </div>
-      <div className="field">
+      <div className="field field-desc">
         <label>설명</label>
         <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="간단한 설명" />
       </div>
-      <div className="field">
+      <div className="field field-category">
         <label>사용자</label>
         <select value={category} onChange={e => setCategory(e.target.value)}>
           <option value="">선택</option>
