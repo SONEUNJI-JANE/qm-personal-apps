@@ -59,11 +59,13 @@ body {
 .field input[type="text"],
 .field input:not([type]),
 .field select {
-  padding: 8px 10px;
+  height: 36px;
+  padding: 0 10px;
   border: 1px solid #d7dade;
   border-radius: 6px;
   font-size: 13px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 .file-picker {
@@ -82,7 +84,8 @@ body {
 }
 
 .btn {
-  padding: 9px 16px;
+  height: 36px;
+  padding: 0 16px;
   border: 1px solid #d7dade;
   border-radius: 6px;
   background: #f5f6f7;
@@ -91,6 +94,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 .btn:hover { background: #eceef0; }
 .btn:disabled { background: #f0f1f2; color: #aaa; cursor: not-allowed; }
@@ -99,18 +106,26 @@ body {
   color: #1a1a1a;
   border: 1px solid #d7dade;
   border-radius: 6px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
 }
 .btn-ghost:hover { background: #f0f1f3; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-sm { height: 28px; padding: 0 12px; font-size: 12px; }
 .btn-danger {
+  height: 28px;
   background: transparent;
   color: #c0392b;
   border: 1px solid #f0c4bd;
   border-radius: 6px;
-  padding: 6px 12px;
+  padding: 0 12px;
   font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 .btn-danger:hover { background: #fdecea; }
 
@@ -123,7 +138,8 @@ body {
   margin-bottom: 16px;
 }
 .chip {
-  padding: 6px 14px;
+  height: 28px;
+  padding: 0 14px;
   border-radius: 6px;
   border: 1px solid #d7dade;
   background: #f5f6f7;
@@ -131,6 +147,9 @@ body {
   font-weight: 600;
   color: #444;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 .chip:hover { background: #eceef0; }
 .chip.active {
