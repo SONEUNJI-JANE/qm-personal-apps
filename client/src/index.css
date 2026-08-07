@@ -52,15 +52,27 @@ body {
   color: #555;
 }
 .field input[type="text"],
-.field input:not([type]) {
+.field input:not([type]),
+.field select {
   padding: 8px 10px;
   border: 1px solid #d7dade;
   border-radius: 6px;
   font-size: 13px;
+  background: #fff;
 }
-.field input[type="file"] {
+
+.file-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+}
+.file-name {
   font-size: 12px;
-  padding: 6px 0;
+  color: #777;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .btn {
@@ -80,8 +92,11 @@ body {
   background: transparent;
   color: #1a1a1a;
   border: 1px solid #d7dade;
+  display: inline-block;
+  text-decoration: none;
 }
 .btn-ghost:hover { background: #f0f1f3; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
 .btn-danger {
   background: transparent;
   color: #c0392b;

@@ -12,9 +12,9 @@ interface Props {
 }
 
 const COLUMNS: { field: SortField; label: string }[] = [
-  { field: 'name', label: '이름' },
-  { field: 'category', label: '카테고리' },
-  { field: 'uploader_email', label: '올린사람' },
+  { field: 'name', label: '제목' },
+  { field: 'category', label: '사용자' },
+  { field: 'uploader_email', label: '작성자' },
   { field: 'uploaded_at', label: '날짜' },
 ]
 
@@ -86,7 +86,7 @@ export function AppList({ apps, categories, activeCategory, onCategorySelect, on
                   <td className="meta">{app.uploader_email}</td>
                   <td className="meta">{new Date(app.uploaded_at).toLocaleString('ko-KR')}</td>
                   <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                    <a className="link" href={downloadAppUrl(app.id)}>다운로드</a>
+                    <a className="btn-ghost btn-sm" href={downloadAppUrl(app.id)}>다운로드</a>
                     {' '}
                     <button className="btn-danger" onClick={() => onDelete(app.id)}>삭제</button>
                   </td>
