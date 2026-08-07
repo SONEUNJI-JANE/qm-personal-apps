@@ -38,13 +38,25 @@ export function UploadForm({ uploaderEmail, onUploaded }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="file" onChange={e => setFile(e.target.files?.[0] ?? null)} />
-      <input placeholder="이름" value={name} onChange={e => setName(e.target.value)} />
-      <input placeholder="설명" value={description} onChange={e => setDescription(e.target.value)} />
-      <input placeholder="카테고리 (예: TD, QA, 패턴툴)" value={category} onChange={e => setCategory(e.target.value)} />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit" disabled={submitting}>{submitting ? '업로드 중...' : '업로드'}</button>
+    <form className="card upload-form" onSubmit={handleSubmit}>
+      <div className="field" style={{ gridColumn: '1 / -1' }}>
+        <label>파일</label>
+        <input type="file" onChange={e => setFile(e.target.files?.[0] ?? null)} />
+      </div>
+      <div className="field">
+        <label>이름 *</label>
+        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="예: 패턴요청 자동회신" />
+      </div>
+      <div className="field">
+        <label>설명</label>
+        <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="간단한 설명" />
+      </div>
+      <div className="field">
+        <label>카테고리</label>
+        <input type="text" value={category} onChange={e => setCategory(e.target.value)} placeholder="예: TD, QA, 패턴툴" />
+      </div>
+      <button type="submit" className="btn" disabled={submitting}>{submitting ? '업로드 중...' : '업로드'}</button>
+      {error && <p className="error-text">{error}</p>}
     </form>
   )
 }

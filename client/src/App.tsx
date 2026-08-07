@@ -30,12 +30,15 @@ function AppContent() {
     refresh()
   }
 
-  if (isLoading) return <div>Loading...</div>
-  if (!user?.email) return <div>DCS AI 인증 정보를 받지 못했습니다.</div>
+  if (isLoading) return <div className="page">Loading...</div>
+  if (!user?.email) return <div className="page">DCS AI 인증 정보를 받지 못했습니다.</div>
 
   return (
-    <div>
-      <h1>QM 개인앱 아카이브</h1>
+    <div className="page">
+      <div className="page-header">
+        <h1>QM 개인앱 아카이브</h1>
+        <p>팀원들이 만든 도구를 올리고 받아가는 곳</p>
+      </div>
       <UploadForm uploaderEmail={user.email} onUploaded={refresh} />
       <AppList
         apps={visibleApps}
