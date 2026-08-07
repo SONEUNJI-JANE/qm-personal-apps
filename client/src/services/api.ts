@@ -6,6 +6,7 @@ export interface PersonalApp {
   original_filename: string
   file_size: number
   uploader_email: string
+  uploader_name: string | null
   uploaded_at: string
 }
 
@@ -25,7 +26,7 @@ export async function listApps(category?: string): Promise<PersonalApp[]> {
 
 export async function uploadApp(
   file: File,
-  fields: { name: string; description: string; category: string; uploaderEmail: string }
+  fields: { name: string; description: string; category: string; uploaderEmail: string; uploaderName: string }
 ): Promise<PersonalApp> {
   const formData = new FormData()
   formData.append('file', file)
@@ -33,6 +34,7 @@ export async function uploadApp(
   formData.append('description', fields.description)
   formData.append('category', fields.category)
   formData.append('uploaderEmail', fields.uploaderEmail)
+  formData.append('uploaderName', fields.uploaderName)
 
   const res = await fetch('/api/personal-apps', { method: 'POST', body: formData })
   const body: ApiResponse<PersonalApp> = await res.json()

@@ -3,10 +3,11 @@ import { uploadApp } from '../services/api'
 
 interface Props {
   uploaderEmail: string
+  uploaderName: string
   onUploaded: () => void
 }
 
-export function UploadForm({ uploaderEmail, onUploaded }: Props) {
+export function UploadForm({ uploaderEmail, uploaderName, onUploaded }: Props) {
   const [file, setFile] = useState<File | null>(null)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -25,7 +26,7 @@ export function UploadForm({ uploaderEmail, onUploaded }: Props) {
     setSubmitting(true)
     setError(null)
     try {
-      await uploadApp(file, { name, description, category, uploaderEmail })
+      await uploadApp(file, { name, description, category, uploaderEmail, uploaderName })
       setFile(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
       setName('')
@@ -57,12 +58,12 @@ export function UploadForm({ uploaderEmail, onUploaded }: Props) {
         </div>
       </div>
       <div className="field field-name">
-        <label>제목 *</label>
-        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="예: 패턴요청 자동회신" />
+        <label>앱 이름 *</label>
+        <input type="text" value={name} onChange={e => setName(e.target.value)} />
       </div>
       <div className="field field-desc">
-        <label>설명</label>
-        <input type="text" value={description} onChange={e => setDescription(e.target.value)} placeholder="간단한 설명" />
+        <label>앱 설명</label>
+        <input type="text" value={description} onChange={e => setDescription(e.target.value)} />
       </div>
       <div className="field field-category">
         <label>사용자</label>

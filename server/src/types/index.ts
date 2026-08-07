@@ -7,6 +7,7 @@ export interface PersonalApp {
   original_filename: string
   file_size: number
   uploader_email: string
+  uploader_name: string | null
   uploaded_at: Date
 }
 
@@ -18,4 +19,5 @@ export interface CreatePersonalAppDto {
   original_filename: string
   file_size: number
   uploader_email: string
+  uploader_name: string | null
 }

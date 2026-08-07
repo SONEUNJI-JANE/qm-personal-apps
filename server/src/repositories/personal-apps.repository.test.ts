@@ -27,7 +27,7 @@ describe('PersonalAppsRepository', () => {
       s3_key: 'qm-personal-apps/dev/uploads/1-tool.zip',
       original_filename: 'tool.zip',
       file_size: 1024,
-      uploader_email: 'jade@fnfcorp.com',
+      uploader_email: 'jade@fnfcorp.com', uploader_name: '제이드',
     })
 
     const apps = await repo.list()
@@ -39,11 +39,11 @@ describe('PersonalAppsRepository', () => {
   it('filters by category', async () => {
     await repo.create({
       name: 'A', description: null, category: 'TD',
-      s3_key: 'k1', original_filename: 'a.zip', file_size: 10, uploader_email: 'a@fnfcorp.com',
+      s3_key: 'k1', original_filename: 'a.zip', file_size: 10, uploader_email: 'a@fnfcorp.com', uploader_name: null,
     })
     await repo.create({
       name: 'B', description: null, category: 'QA',
-      s3_key: 'k2', original_filename: 'b.zip', file_size: 10, uploader_email: 'b@fnfcorp.com',
+      s3_key: 'k2', original_filename: 'b.zip', file_size: 10, uploader_email: 'b@fnfcorp.com', uploader_name: null,
     })
 
     const tdOnly = await repo.list('TD')
@@ -54,7 +54,7 @@ describe('PersonalAppsRepository', () => {
   it('removes an app by id', async () => {
     const created = await repo.create({
       name: 'C', description: null, category: null,
-      s3_key: 'k3', original_filename: 'c.zip', file_size: 10, uploader_email: 'c@fnfcorp.com',
+      s3_key: 'k3', original_filename: 'c.zip', file_size: 10, uploader_email: 'c@fnfcorp.com', uploader_name: null,
     })
 
     await repo.remove(created.id)

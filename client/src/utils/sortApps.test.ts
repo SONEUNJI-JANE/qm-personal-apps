@@ -3,9 +3,9 @@ import { sortApps } from './sortApps'
 import type { PersonalApp } from '../services/api'
 
 const apps: PersonalApp[] = [
-  { id: 1, name: 'B', description: null, category: 'QA', original_filename: 'b.zip', file_size: 1, uploader_email: 'b@fnfcorp.com', uploaded_at: '2026-01-02' },
-  { id: 2, name: 'A', description: null, category: 'TD', original_filename: 'a.zip', file_size: 1, uploader_email: 'a@fnfcorp.com', uploaded_at: '2026-01-03' },
-  { id: 3, name: 'C', description: null, category: null, original_filename: 'c.zip', file_size: 1, uploader_email: 'c@fnfcorp.com', uploaded_at: '2026-01-01' },
+  { id: 1, name: 'B', description: null, category: 'QA', original_filename: 'b.zip', file_size: 1, uploader_email: 'b@fnfcorp.com', uploader_name: null, uploaded_at: '2026-01-02' },
+  { id: 2, name: 'A', description: null, category: 'TD', original_filename: 'a.zip', file_size: 1, uploader_email: 'a@fnfcorp.com', uploader_name: null, uploaded_at: '2026-01-03' },
+  { id: 3, name: 'C', description: null, category: null, original_filename: 'c.zip', file_size: 1, uploader_email: 'c@fnfcorp.com', uploader_name: null, uploaded_at: '2026-01-01' },
 ]
 
 describe('sortApps', () => {

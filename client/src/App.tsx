@@ -36,10 +36,10 @@ function AppContent() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>QM 개인앱 아카이브</h1>
-        <p>팀원들이 만든 도구를 올리고 받아가는 곳</p>
+        <h1>QM 개발 앱 아카이브</h1>
+        <p>업무 효율화를 위한 도구 공유 허브</p>
       </div>
-      <UploadForm uploaderEmail={user.email} onUploaded={refresh} />
+      <UploadForm uploaderEmail={user.email} uploaderName={user.name ?? user.email} onUploaded={refresh} />
       <AppList
         apps={visibleApps}
         categories={categories}

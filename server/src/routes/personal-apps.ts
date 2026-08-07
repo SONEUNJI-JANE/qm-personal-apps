@@ -46,6 +46,7 @@ router.post('/', upload.single('file'), async (req: Request, res: Response, next
       original_filename: originalFilename,
       file_size: req.file.size,
       uploader_email: req.body.uploaderEmail,
+      uploader_name: req.body.uploaderName || null,
     })
 
     res.status(201).json({ success: true, data: created })

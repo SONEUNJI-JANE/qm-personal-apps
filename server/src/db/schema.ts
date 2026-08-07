@@ -10,4 +10,5 @@ create table if not exists personal_apps (
     uploader_email    text not null,
     uploaded_at       timestamptz not null default now()
 );
+alter table personal_apps add column if not exists uploader_name text;
 `
