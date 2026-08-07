@@ -1,0 +1,9 @@
+{
+  "name": "qm-personal-apps",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "build": "npm --prefix client run build && npm --prefix server run build",
+    "start": "node server/dist/index.js"
+  }
+}

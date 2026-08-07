@@ -30,7 +30,7 @@ export async function uploadFile(
   const response = await fetchImpl(objectUrl(key), {
     method: 'POST',
     headers: authHeaders({ 'Content-Type': contentType, 'x-upsert': 'true' }),
-    body,
+    body: body as unknown as BodyInit,
   })
 
   if (!response.ok) {
