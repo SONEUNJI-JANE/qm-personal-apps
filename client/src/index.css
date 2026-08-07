@@ -156,7 +156,7 @@ table.app-table {
 .app-table tbody td {
   padding: 12px;
   border-bottom: 1px solid #eee;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .app-table tbody tr:last-child td { border-bottom: none; }
 .app-table tbody tr:hover { background: #fafbfc; }
