@@ -29,7 +29,8 @@ router.post('/', upload.single('file'), async (req: Request, res: Response, next
       return res.status(400).json({ success: false, error: 'name and uploaderEmail are required' })
     }
 
-    const ext = extname(req.file.originalname)
+    const originalFilename = Buffer.from(req.file.originalname, 'latin1').toString('utf8')
+    const ext = extname(originalFilename)
     const safeExt = /^\.[a-zA-Z0-9]{1,10}$/.test(ext) ? ext : ''
     const s3Key = await uploadFile(
       `uploads/${Date.now()}-${randomUUID()}${safeExt}`,
@@ -42,7 +43,7 @@ router.post('/', upload.single('file'), async (req: Request, res: Response, next
       description: req.body.description ?? null,
       category: req.body.category ?? null,
       s3_key: s3Key,
-      original_filename: req.file.originalname,
+      original_filename: originalFilename,
       file_size: req.file.size,
       uploader_email: req.body.uploaderEmail,
     })
