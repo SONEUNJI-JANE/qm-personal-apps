@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { PersonalApp } from '../services/api'
-import { downloadAppUrl } from '../services/api'
+import { publicDownloadUrl } from '../services/storage'
 import { sortApps, SortField, SortDirection } from '../utils/sortApps'
 
 interface Props {
@@ -86,7 +86,7 @@ export function AppList({ apps, categories, activeCategory, onCategorySelect, on
                   <td className="meta">{app.uploader_name || app.uploader_email}</td>
                   <td className="meta">{new Date(app.uploaded_at).toLocaleString('ko-KR')}</td>
                   <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                    <a className="btn-ghost btn-sm" href={downloadAppUrl(app.id)}>다운로드</a>
+                    <a className="btn-ghost btn-sm" href={publicDownloadUrl(app.s3_key, app.original_filename)}>다운로드</a>
                     {' '}
                     <button className="btn-danger" onClick={() => onDelete(app.id)}>삭제</button>
                   </td>

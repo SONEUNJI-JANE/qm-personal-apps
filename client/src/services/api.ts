@@ -3,6 +3,7 @@ export interface PersonalApp {
   name: string
   description: string | null
   category: string | null
+  s3_key: string
   original_filename: string
   file_size: number
   uploader_email: string
@@ -24,26 +25,24 @@ export async function listApps(category?: string): Promise<PersonalApp[]> {
   return body.data
 }
 
-export async function uploadApp(
-  file: File,
-  fields: { name: string; description: string; category: string; uploaderEmail: string; uploaderName: string }
-): Promise<PersonalApp> {
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('name', fields.name)
-  formData.append('description', fields.description)
-  formData.append('category', fields.category)
-  formData.append('uploaderEmail', fields.uploaderEmail)
-  formData.append('uploaderName', fields.uploaderName)
-
-  const res = await fetch('/api/personal-apps', { method: 'POST', body: formData })
+export async function createAppRecord(fields: {
+  name: string
+  description: string
+  category: string
+  uploaderEmail: string
+  uploaderName: string
+  s3Key: string
+  originalFilename: string
+  fileSize: number
+}): Promise<PersonalApp> {
+  const res = await fetch('/api/personal-apps', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(fields),
+  })
   const body: ApiResponse<PersonalApp> = await res.json()
-  if (!body.success || !body.data) throw new Error(body.error || 'Upload failed')
+  if (!body.success || !body.data) throw new Error(body.error || 'Save failed')
   return body.data
-}
-
-export function downloadAppUrl(id: number): string {
-  return `/api/personal-apps/${id}/download`
 }
 
 export async function deleteApp(id: number): Promise<void> {

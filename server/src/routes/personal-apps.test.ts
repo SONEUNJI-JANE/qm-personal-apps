@@ -14,8 +14,6 @@ vi.mock('../repositories/personal-apps.repository', () => ({
 }))
 
 vi.mock('../services/storage.service', () => ({
-  uploadFile: vi.fn(async (path: string) => `qm-personal-apps/test/${path}`),
-  downloadFile: vi.fn(async () => Buffer.from('file-bytes')),
   deleteFile: vi.fn(async () => {}),
 }))
 
@@ -49,48 +47,43 @@ describe('personal-apps routes', () => {
     expect(mockRepo.list).toHaveBeenCalledWith('TD')
   })
 
-  it('POST / uploads to S3 and stores metadata', async () => {
+  it('POST / saves metadata for an already-uploaded file', async () => {
     mockRepo.create.mockResolvedValue({ id: 2, name: 'Tool B' })
 
     const res = await request(app)
       .post('/api/personal-apps')
-      .field('name', 'Tool B')
-      .field('description', 'desc')
-      .field('category', 'QA')
-      .field('uploaderEmail', 'jade@fnfcorp.com')
-      .attach('file', Buffer.from('zipcontent'), 'tool.zip')
+      .send({
+        name: 'Tool B',
+        description: 'desc',
+        category: 'QA',
+        uploaderEmail: 'jade@fnfcorp.com',
+        uploaderName: '김서진',
+        s3Key: 'qm-personal-apps/prd/uploads/1-abc.zip',
+        originalFilename: 'tool.zip',
+        fileSize: 1024,
+      })
 
     expect(res.status).toBe(201)
     expect(res.body.data.name).toBe('Tool B')
     expect(mockRepo.create).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'Tool B', category: 'QA', uploader_email: 'jade@fnfcorp.com' })
+      expect.objectContaining({
+        name: 'Tool B',
+        category: 'QA',
+        uploader_email: 'jade@fnfcorp.com',
+        uploader_name: '김서진',
+        s3_key: 'qm-personal-apps/prd/uploads/1-abc.zip',
+        original_filename: 'tool.zip',
+        file_size: 1024,
+      })
     )
   })
 
-  it('POST / without a file returns 400', async () => {
+  it('POST / without required fields returns 400', async () => {
     const res = await request(app)
       .post('/api/personal-apps')
-      .field('name', 'Tool C')
-      .field('uploaderEmail', 'jade@fnfcorp.com')
+      .send({ name: 'Tool C', uploaderEmail: 'jade@fnfcorp.com' })
 
     expect(res.status).toBe(400)
-  })
-
-  it('GET /:id/download streams the file', async () => {
-    mockRepo.findById.mockResolvedValue({ id: 3, s3_key: 'k', original_filename: 'tool.zip' })
-
-    const res = await request(app).get('/api/personal-apps/3/download')
-
-    expect(res.status).toBe(200)
-    expect(Buffer.from(res.body).toString()).toBe('file-bytes')
-  })
-
-  it('GET /:id/download returns 404 for unknown id', async () => {
-    mockRepo.findById.mockResolvedValue(null)
-
-    const res = await request(app).get('/api/personal-apps/999/download')
-
-    expect(res.status).toBe(404)
   })
 
   it('DELETE /:id removes DB row and S3 object', async () => {
@@ -101,5 +94,13 @@ describe('personal-apps routes', () => {
 
     expect(res.status).toBe(204)
     expect(mockRepo.remove).toHaveBeenCalledWith(4)
+  })
+
+  it('DELETE /:id returns 404 for unknown id', async () => {
+    mockRepo.findById.mockResolvedValue(null)
+
+    const res = await request(app).delete('/api/personal-apps/999')
+
+    expect(res.status).toBe(404)
   })
 })

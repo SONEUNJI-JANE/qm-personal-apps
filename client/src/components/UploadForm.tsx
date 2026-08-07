@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
-import { uploadApp } from '../services/api'
+import { createAppRecord } from '../services/api'
+import { buildStorageKey, uploadFileDirect } from '../services/storage'
 
 interface Props {
   uploaderEmail: string
@@ -19,14 +20,25 @@ export function UploadForm({ uploaderEmail, uploaderName, onUploaded }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!file || !name.trim()) {
-      setError('파일과 제목은 필수입니다')
+      setError('파일과 앱 이름은 필수입니다')
       return
     }
 
     setSubmitting(true)
     setError(null)
     try {
-      await uploadApp(file, { name, description, category, uploaderEmail, uploaderName })
+      const s3Key = buildStorageKey(file.name)
+      await uploadFileDirect(file, s3Key)
+      await createAppRecord({
+        name,
+        description,
+        category,
+        uploaderEmail,
+        uploaderName,
+        s3Key,
+        originalFilename: file.name,
+        fileSize: file.size,
+      })
       setFile(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
       setName('')

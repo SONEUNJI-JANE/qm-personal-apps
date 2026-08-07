@@ -1,13 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import multer from 'multer'
-import { randomUUID } from 'crypto'
-import { extname } from 'path'
 import { PersonalAppsRepository } from '../repositories/personal-apps.repository'
 import { getPool } from '../db/pool'
-import { uploadFile, downloadFile, deleteFile } from '../services/storage.service'
+import { deleteFile } from '../services/storage.service'
 
 const router = Router()
-const upload = multer({ storage: multer.memoryStorage() })
 const repo = new PersonalAppsRepository(getPool())
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
@@ -20,52 +16,28 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 })
 
-router.post('/', upload.single('file'), async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, error: 'No file provided' })
+    const { name, uploaderEmail, s3Key, originalFilename, fileSize } = req.body
+    if (!name || !uploaderEmail || !s3Key || !originalFilename || typeof fileSize !== 'number') {
+      return res.status(400).json({
+        success: false,
+        error: 'name, uploaderEmail, s3Key, originalFilename, fileSize are required',
+      })
     }
-    if (!req.body.name || !req.body.uploaderEmail) {
-      return res.status(400).json({ success: false, error: 'name and uploaderEmail are required' })
-    }
-
-    const originalFilename = Buffer.from(req.file.originalname, 'latin1').toString('utf8')
-    const ext = extname(originalFilename)
-    const safeExt = /^\.[a-zA-Z0-9]{1,10}$/.test(ext) ? ext : ''
-    const s3Key = await uploadFile(
-      `uploads/${Date.now()}-${randomUUID()}${safeExt}`,
-      req.file.buffer,
-      req.file.mimetype
-    )
 
     const created = await repo.create({
-      name: req.body.name,
-      description: req.body.description ?? null,
-      category: req.body.category ?? null,
+      name,
+      description: req.body.description || null,
+      category: req.body.category || null,
       s3_key: s3Key,
       original_filename: originalFilename,
-      file_size: req.file.size,
-      uploader_email: req.body.uploaderEmail,
+      file_size: fileSize,
+      uploader_email: uploaderEmail,
       uploader_name: req.body.uploaderName || null,
     })
 
     res.status(201).json({ success: true, data: created })
-  } catch (error) {
-    next(error)
-  }
-})
-
-router.get('/:id/download', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const app = await repo.findById(Number(req.params.id))
-    if (!app) {
-      return res.status(404).json({ success: false, error: 'App not found' })
-    }
-
-    const buffer = await downloadFile(app.s3_key)
-    const encodedName = encodeURIComponent(app.original_filename)
-    res.setHeader('Content-Disposition', `attachment; filename="download"; filename*=UTF-8''${encodedName}`)
-    res.send(buffer)
   } catch (error) {
     next(error)
   }
