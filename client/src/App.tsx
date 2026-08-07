@@ -36,7 +36,7 @@ function AppContent() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>QM 개발 앱 아카이브</h1>
+        <h1>QM Team AI App Archive</h1>
         <p>업무 효율화를 위한 도구 공유 허브</p>
       </div>
       <UploadForm uploaderEmail={user.email} uploaderName={user.name ?? user.email} onUploaded={refresh} />
