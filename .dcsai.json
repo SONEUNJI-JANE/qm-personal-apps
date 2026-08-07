@@ -1,0 +1,8 @@
+{
+  "slug": "qm-personal-apps",
+  "displayName": "QM 개인앱 아카이브",
+  "github": "SONEUNJI-JANE/qm-personal-apps",
+  "runtime": "node",
+  "start": "node server/dist/index.js",
+  "port": 3000
+}
