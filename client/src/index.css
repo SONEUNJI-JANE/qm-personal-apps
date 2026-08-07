@@ -83,21 +83,22 @@ body {
 
 .btn {
   padding: 9px 16px;
-  border: none;
+  border: 1px solid #d7dade;
   border-radius: 6px;
-  background: #1a1a1a;
-  color: #fff;
+  background: #f5f6f7;
+  color: #333;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
 }
-.btn:hover { background: #333; }
-.btn:disabled { background: #aaa; cursor: not-allowed; }
+.btn:hover { background: #eceef0; }
+.btn:disabled { background: #f0f1f2; color: #aaa; cursor: not-allowed; }
 .btn-ghost {
   background: transparent;
   color: #1a1a1a;
   border: 1px solid #d7dade;
+  border-radius: 6px;
   display: inline-block;
   text-decoration: none;
 }
@@ -107,7 +108,8 @@ body {
   background: transparent;
   color: #c0392b;
   border: 1px solid #f0c4bd;
-  padding: 6px 10px;
+  border-radius: 6px;
+  padding: 6px 12px;
   font-size: 12px;
 }
 .btn-danger:hover { background: #fdecea; }
@@ -122,19 +124,19 @@ body {
 }
 .chip {
   padding: 6px 14px;
-  border-radius: 999px;
+  border-radius: 6px;
   border: 1px solid #d7dade;
-  background: #fff;
+  background: #f5f6f7;
   font-size: 12px;
   font-weight: 600;
   color: #444;
   cursor: pointer;
 }
-.chip:hover { background: #f0f1f3; }
+.chip:hover { background: #eceef0; }
 .chip.active {
-  background: #1a1a1a;
-  border-color: #1a1a1a;
-  color: #fff;
+  background: #dfe1e4;
+  border-color: #c3c6ca;
+  color: #1a1a1a;
   cursor: default;
 }
 
