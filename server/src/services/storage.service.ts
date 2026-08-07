@@ -8,7 +8,8 @@ export function buildKey(path: string): string {
 }
 
 function objectUrl(key: string): string {
-  return `${config.SUPABASE_URL}/storage/v1/object/${config.SUPABASE_STORAGE_BUCKET}/${key}`
+  const encodedKey = key.split('/').map(encodeURIComponent).join('/')
+  return `${config.SUPABASE_URL}/storage/v1/object/${config.SUPABASE_STORAGE_BUCKET}/${encodedKey}`
 }
 
 function authHeaders(extra?: Record<string, string>): Record<string, string> {
