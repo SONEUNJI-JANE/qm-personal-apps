@@ -7,7 +7,7 @@ import { config } from './config'
 
 const app = express()
 
-app.use(helmet({ contentSecurityPolicy: false }))
+app.use(helmet({ contentSecurityPolicy: false, frameguard: false }))
 app.use(cors({ origin: config.CORS_ORIGIN }))
 app.use(express.json())
 app.use('/api', routes)
