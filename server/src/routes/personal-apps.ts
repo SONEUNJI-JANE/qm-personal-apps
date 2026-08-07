@@ -1,5 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import multer from 'multer'
+import { randomUUID } from 'crypto'
+import { extname } from 'path'
 import { PersonalAppsRepository } from '../repositories/personal-apps.repository'
 import { getPool } from '../db/pool'
 import { uploadFile, downloadFile, deleteFile } from '../services/storage.service'
@@ -27,8 +29,10 @@ router.post('/', upload.single('file'), async (req: Request, res: Response, next
       return res.status(400).json({ success: false, error: 'name and uploaderEmail are required' })
     }
 
+    const ext = extname(req.file.originalname)
+    const safeExt = /^\.[a-zA-Z0-9]{1,10}$/.test(ext) ? ext : ''
     const s3Key = await uploadFile(
-      `uploads/${Date.now()}-${req.file.originalname}`,
+      `uploads/${Date.now()}-${randomUUID()}${safeExt}`,
       req.file.buffer,
       req.file.mimetype
     )
@@ -57,7 +61,8 @@ router.get('/:id/download', async (req: Request, res: Response, next: NextFuncti
     }
 
     const buffer = await downloadFile(app.s3_key)
-    res.setHeader('Content-Disposition', `attachment; filename="${app.original_filename}"`)
+    const encodedName = encodeURIComponent(app.original_filename)
+    res.setHeader('Content-Disposition', `attachment; filename="download"; filename*=UTF-8''${encodedName}`)
     res.send(buffer)
   } catch (error) {
     next(error)
